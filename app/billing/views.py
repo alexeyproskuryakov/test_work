@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
@@ -65,8 +66,8 @@ class TransactionsView(generics.ListAPIView):
 
         interested_wallets = interested_wallets or client_wallets
 
-        queryset.filter(wallet_from__in=interested_wallets)
-        queryset.filter(wallet_to__in=interested_wallets)
+        queryset.filter(Q(wallet_from__in=interested_wallets) | Q(wallet_to__in=interested_wallets))
+
 
         queryset.filter(created__gt=input.validated_data['end'], created__lt=input.validated_data['start'])
         queryset.order_by(input.validated_data['order_by'])

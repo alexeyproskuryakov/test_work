@@ -63,8 +63,6 @@ class TransactionResultSerializer(serializers.ModelSerializer):
 
 
 class TransactionListInputSerializer(serializers.Serializer):
-    input = serializers.BooleanField(write_only=True, default=True)
-    output = serializers.BooleanField(write_only=True, default=True)
     wallets = serializers.ListField(child=serializers.PrimaryKeyRelatedField(queryset=Wallet.objects.all()), default=[])
     start = serializers.DateTimeField(default=(datetime.utcnow() - timedelta(days=30)))
     end = serializers.DateTimeField(default=datetime.utcnow())
